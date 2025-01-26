@@ -3,7 +3,7 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt, get_j
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from datetime import timezone
-from models import User, db
+from models import User, TokenBlocklist, db
 
 user_bp = Blueprint("user_bp", __name__)
 
@@ -96,7 +96,7 @@ def delete_account():
     else:
         return jsonify({"error": "User wasn't found"})
 
-@auth_bp.route("/logout", methods=["DELETE"])
+@user_bp.route("/logout", methods=["DELETE"])
 @jwt_required()
 def logout():
     jti = get_jwt()["jti"]
