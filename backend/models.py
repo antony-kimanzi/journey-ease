@@ -37,3 +37,8 @@ class Reservation(db.Model):
     trip_id = db.Column(db.Integer, db.ForeignKey("trips.id"), nullable=False)
 
     trip = db.relationship("Trip", back_populates="reservation")
+
+class TokenBlocklist(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    jti = db.Column(db.String(36), nullable=False, index=True)
+    created_at = db.Column(db.DateTime, nullable=False)
