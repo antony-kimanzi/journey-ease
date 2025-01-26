@@ -7,7 +7,7 @@ db = SQLAlchemy(metadata = metadata)
 class User(db.Model):
     __tablename__ = "users"
 
-    id = db.Column(db.Integer, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
     username = db.Column(db.String(40), nullable=False)
     email = db.Column(db.String(128), nullable=False)
     password = db.Column(db.String(40), unique=True, nullable=False)
@@ -18,7 +18,7 @@ class User(db.Model):
 class Trip(db.Model):
     __tablename__ = "trips"
 
-    id = db.Column(db.Integer, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
     country = db.Column(db.String(40), nullable=False)
     trip_activity = db.Column(db.String(256), nullable=False)
     duration = db.Column(db.String(40), nullable=False)
@@ -30,7 +30,7 @@ class Trip(db.Model):
 class Reservation(db.Model):
     __tablename__ = "reservations"
 
-    id = db.Column(db.Integer, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
     type = db.Column(db.String(256), nullable=False)
     cost = db.Column(db.Float, nullable=False)
     reservation_date = db.Column(db.DateTime, nullable=False)
