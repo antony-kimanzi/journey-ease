@@ -15,6 +15,10 @@ def add_user():
     password = generate_password_hash(data["password"])
     phone_number = data["phone_number"]
     
+    
+    if len(phone_number) != 10 :
+        return jsonify({"error": "phone number should be valid"})
+    
     check_name = User.query.filter_by(username=username).first()
     check_email = User.query.filter_by(email=email).first()
     check_number = User.query.filter_by(phone_number=phone_number).first()
@@ -44,10 +48,10 @@ def login():
 
     if user:
         if check_password_hash(user.password, password):
-            access_token = create_access_token(identity=user.id)
+            access_token = create_access_token(identity=str(user.id))
             return jsonify({"access_token": access_token})
         else:
-            return jsonify({"error": "Invalid password"})
+            return jsonify({"error": "Invalid password"}), 400
     else:
         return jsonify({"error": "Invalid password"})
 

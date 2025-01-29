@@ -19,18 +19,20 @@ class Trip(db.Model):
     __tablename__ = "trips"
 
     id = db.Column(db.Integer, primary_key=True, nullable=False)
+    trip_ref = db.Column(db.String(50), unique=True, nullable=False)
     country = db.Column(db.String(40), nullable=False)
     trip_activity = db.Column(db.String(256), nullable=False)
     duration = db.Column(db.String(40), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
     user = db.relationship("User", back_populates="trip")
-    reservation = db.relationship("Reservation", back_populates="reservations", cascade="all, delete-orphan")
+    reservation = db.relationship("Reservation", back_populates="trip", cascade="all, delete-orphan")
 
 class Reservation(db.Model):
     __tablename__ = "reservations"
 
     id = db.Column(db.Integer, primary_key=True, nullable=False)
+    reservation_ref = db.Column(db.String(50), unique=True, nullable=False)
     type = db.Column(db.String(256), nullable=False)
     cost = db.Column(db.Float, nullable=False)
     reservation_date = db.Column(db.DateTime, nullable=False)
