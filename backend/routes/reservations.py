@@ -68,7 +68,7 @@ def add_reservation(trip_ref):
             check_reservation = Reservation.query.filter_by(reservation_date=res_date, type=res_type, cost=res_cost, trip_id=trip.id).first()
 
             if check_reservation:
-                return jsonify({"error": "reservation already exists"})
+                return jsonify({"error": "reservation already exist"})
             else:
                 new_reservation = Reservation(reservation_ref=res_ref, type=res_type, cost=res_cost, reservation_date=res_date, trip_id=trip.id)
 

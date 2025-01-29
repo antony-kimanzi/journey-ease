@@ -17,7 +17,7 @@ def add_user():
     
     
     if len(phone_number) != 10 :
-        return jsonify({"error": "phone number should be valid"})
+        return jsonify({"error": "Phone number should be valid"})
     
     check_name = User.query.filter_by(username=username).first()
     check_email = User.query.filter_by(email=email).first()

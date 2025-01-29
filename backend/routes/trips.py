@@ -10,7 +10,7 @@ trip_bp = Blueprint("trip_bp", __name__)
 def trips():
     user_id = get_jwt_identity()
 
-    trips = Trip.query.filter_by(user_id=user_id).first()
+    trips = Trip.query.filter_by(user_id=user_id).all()
     if trips:
         trip_list = [{"trip ref": trip.trip_ref, "country": trip.country, "trip activity": trip.trip_activity, "duration": trip.duration} for trip in trips]
 
