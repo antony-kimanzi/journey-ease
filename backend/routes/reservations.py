@@ -6,17 +6,17 @@ import uuid
 
 reservation_bp = Blueprint("reservation_bp", __name__)
 
-reservation_bp.route("/reservations/<string:trip_ref>")
+@reservation_bp.route("/reservations/<int:trip_id>")
 @jwt_required()
-def reservations(trip_ref):
+def reservations(trip_id):
     user_id = get_jwt_identity()
 
     if user_id:
-        trip = Trip.query.filter_by(trip_ref=trip_ref,user_id=user_id).first()
+        trip = Trip.query.filter_by(id=trip_id,user_id=user_id).first()
         if trip:
             reservations = Reservation.query.filter_by(trip_id=trip.id).all()
             if reservations:
-                reservation_list = [{"Reservation type": reservation.type, "cost": reservation.cost, "Reservation date": reservation.reservation_date} for reservation in reservations]
+                reservation_list = [{"id":reservation.id, "reservation_ref":reservation.reservation_ref, "reservation_type": reservation.type, "cost": reservation.cost, "reservation_date": reservation.reservation_date} for reservation in reservations]
 
                 return jsonify(reservation_list)
             else:
@@ -26,36 +26,15 @@ def reservations(trip_ref):
     else:
         return jsonify({"error": "user needs to login"})
     
-
-reservation_bp.route("/reservation/<string:trip_ref>/<string:reservation_ref>")
+    
+    
+@reservation_bp.route("/reservation/add/<int:trip_id>", methods=["POST"])
 @jwt_required()
-def single_reservation(trip_ref, reservation_ref):
+def add_reservation(trip_id):
     user_id = get_jwt_identity()
 
     if user_id:
-        trip = Trip.query.filter_by(trip_ref=trip_ref,user_id=user_id).first()
-        if trip:
-            reservation = Reservation.query.filter_by(reservation_ref=reservation_ref, trip_id=trip.id).first()
-            if reservation:
-                return jsonify({"Reservation type": reservation.type, "cost": reservation.cost, "Reservation date": reservation.reservation_date})
-            
-            else:
-                return jsonify({"error": "reservation didn't exist"})
-            
-        else:
-            return jsonify({"error": "User hasn't scheduled any trip"})
-        
-    else:
-        return jsonify({"error": "user needs to login"})
-    
-    
-reservation_bp.route("/reservation/add/<string:trip_ref>", methods=["POST"])
-@jwt_required()
-def add_reservation(trip_ref):
-    user_id = get_jwt_identity()
-
-    if user_id:
-        trip = Trip.query.filter_by(trip_ref=trip_ref,user_id=user_id).first()
+        trip = Trip.query.filter_by(id=trip_id,user_id=user_id).first()
 
         if trip:
             data = request.get_json()
@@ -83,16 +62,16 @@ def add_reservation(trip_ref):
         return jsonify({"error": "User needs to login"})
     
     
-reservation_bp.route("/reservation/update/<string:trip_ref>/<string:reservation_ref>", methods=["PATCH"])
+@reservation_bp.route("/reservation/update/<int:trip_id>/<int:reservation_id>", methods=["PATCH"])
 @jwt_required()
-def update_reservation(trip_ref, reservation_ref):
+def update_reservation(trip_id, reservation_id):
     user_id = get_jwt_identity()
 
     if user_id:
-        trip = Trip.query.filter_by(trip_ref=trip_ref,user_id=user_id).first()
+        trip = Trip.query.filter_by(id=trip_id,user_id=user_id).first()
 
         if trip:
-            reservation = Reservation.query.filter_by(reservation_ref=reservation_ref, trip_id=trip.id).first()
+            reservation = Reservation.query.filter_by(id=reservation_id, trip_id=trip.id).first()
 
             if reservation:
                 data = request.get_json()
@@ -124,18 +103,19 @@ def update_reservation(trip_ref, reservation_ref):
     else:
         return jsonify({"error": "User needs to login"})
     
-@reservation_bp.route("/reservation/delete/<string:trip_ref>/<string:reservation_ref>", methods=["DELETE"])
+@reservation_bp.route("/reservation/delete/<int:trip_id>/<int:reservation_id>", methods=["DELETE"])
 @jwt_required()
-def delete_reservation(trip_ref, reservation_ref):
+def delete_reservation(trip_id, reservation_id):
     user_id = get_jwt_identity()
 
     if user_id:
-        trip = Trip.query.filter_by(trip_ref=trip_ref,user_id=user_id).first()
+        trip = Trip.query.filter_by(id=trip_id,user_id=user_id).first()
         if trip:
-            reservation = Reservation.query.filter_by(reservation_ref=reservation_ref, trip_id=trip.id).first()
+            reservation = Reservation.query.filter_by(id=reservation_id, trip_id=trip.id).first()
             if reservation:
                 db.session.delete(reservation)
                 db.session.commit()
+                return jsonify({"success": "reservation cancelled successfully"})
             else:
                 return jsonify({"error": "reservation doesn't exist"})
             

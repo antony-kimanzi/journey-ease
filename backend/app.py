@@ -3,10 +3,18 @@ from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from datetime import timedelta
 from models import TokenBlocklist, db
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(
+    app,
+    resources={r"/*": {"origins": "http://localhost:5173"}},
+    supports_credentials=True
+)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///trip_management.db"
+
+
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://traveldb_oite_user:UYD7fHKipsY8cIpj2w4dItPuEqDFJQZv@dpg-cufq0ftds78s73fngheg-a.oregon-postgres.render.com/traveldb_oite"
 
 migrate = Migrate(app, db)
 db.init_app(app)

@@ -4,8 +4,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from datetime import timezone
 from models import User, TokenBlocklist, db
+from flask_cors import CORS
+
 
 user_bp = Blueprint("user_bp", __name__)
+CORS(user_bp, supports_credentials=True, origins=["http://localhost:5173"])
+
 
 @user_bp.route("/user/register", methods=["POST"])
 def add_user():
@@ -13,7 +17,7 @@ def add_user():
     username = data["username"]
     email = data["email"]
     password = generate_password_hash(data["password"])
-    phone_number = data["phone_number"]
+    phone_number = data["phoneNumber"]
     
     
     if len(phone_number) != 10 :
@@ -41,19 +45,29 @@ def add_user():
 @user_bp.route("/user/login", methods=["POST"])
 def login():
     data = request.get_json()
-
     email = data["email"]
     password = data["password"]
     user = User.query.filter_by(email=email).first()
 
-    if user:
-        if check_password_hash(user.password, password):
-            access_token = create_access_token(identity=str(user.id))
-            return jsonify({"access_token": access_token})
-        else:
-            return jsonify({"error": "Invalid password"}), 400
+    if user and check_password_hash(user.password, password):
+        access_token = create_access_token(identity=str(user.id))
+        response = jsonify({"access_token": access_token})
     else:
-        return jsonify({"error": "Invalid password"})
+        response = jsonify({"error": "Invalid email or password"}), 400
+
+    response.headers.add("Access-Control-Allow-Origin", "http://localhost:5173")
+    response.headers.add("Access-Control-Allow-Credentials", "true")
+
+    return response
+    
+@user_bp.route("/user/login", methods=["OPTIONS"])
+def preflight():
+    response = jsonify({"message": "Preflight OK"})
+    response.headers.add("Access-Control-Allow-Origin", "http://localhost:5173")
+    response.headers.add("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS")
+    response.headers.add("Access-Control-Allow-Headers", "Content-Type, Authorization")
+    response.headers.add("Access-Control-Allow-Credentials", "true")
+    return response, 200
 
 @user_bp.route("/user/profile")    
 @jwt_required()
@@ -62,7 +76,7 @@ def user_profile():
     user = db.session.get(User, user_id)
 
     if user:
-        return jsonify({"username": user.username, "email": user.email, "phone number": user.phone_number})
+        return jsonify({"username": user.username, "email": user.email, "phone_number": user.phone_number})
     else:
         return jsonify({"error": "User doesn't exist"})
     
@@ -105,7 +119,10 @@ def delete_account():
 def logout():
     jti = get_jwt()["jti"]
     now = datetime.now(timezone.utc)
-    db.session.add(TokenBlocklist(jti=jti, created_at=now))
-    db.session.commit()
-    return jsonify({"success ":"Logged out successfully"})
+    if jti:
+        db.session.add(TokenBlocklist(jti=jti, created_at=now))
+        db.session.commit()
+        return jsonify({"success":"Logged out successfully"})
+    else:
+        return jsonify({"error": "User wasn't logged in"})
 

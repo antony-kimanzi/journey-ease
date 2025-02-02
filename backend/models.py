@@ -10,7 +10,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     username = db.Column(db.String(40), nullable=False)
     email = db.Column(db.String(128), nullable=False)
-    password = db.Column(db.String(40), unique=True, nullable=False)
+    password = db.Column(db.String(512), unique=True, nullable=False)
     phone_number = db.Column(db.Integer, nullable=False)
 
     trip = db.relationship("Trip", back_populates="user", cascade='all, delete-orphan')
@@ -35,7 +35,7 @@ class Reservation(db.Model):
     reservation_ref = db.Column(db.String(50), unique=True, nullable=False)
     type = db.Column(db.String(256), nullable=False)
     cost = db.Column(db.Float, nullable=False)
-    reservation_date = db.Column(db.DateTime, nullable=False)
+    reservation_date = db.Column(db.Date, nullable=False)
     trip_id = db.Column(db.Integer, db.ForeignKey("trips.id"), nullable=False)
 
     trip = db.relationship("Trip", back_populates="reservation")

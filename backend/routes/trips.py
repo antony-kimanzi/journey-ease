@@ -12,21 +12,21 @@ def trips():
 
     trips = Trip.query.filter_by(user_id=user_id).all()
     if trips:
-        trip_list = [{"trip ref": trip.trip_ref, "country": trip.country, "trip activity": trip.trip_activity, "duration": trip.duration} for trip in trips]
+        trip_list = [{"id":trip.id, "trip_ref": trip.trip_ref, "country": trip.country, "trip_activity": trip.trip_activity, "duration": trip.duration} for trip in trips]
 
         return jsonify(trip_list)
     else:
         return jsonify({"error": "no trips scheduled by user"})
     
-@trip_bp.route("/trip/<string:trip_ref>")
+@trip_bp.route("/trip/<int:trip_id>")
 @jwt_required()
-def fetch_one_trip(trip_ref):
+def fetch_one_trip(trip_id):
     user_id = get_jwt_identity()
 
-    trip = Trip.query.filter_by(user_id=user_id, trip_ref=trip_ref).first()
+    trip = Trip.query.filter_by(user_id=user_id, id=trip_id).first()
 
     if trip:
-        return jsonify({"trip ref": trip.trip_ref, "country": trip.country, "trip activity": trip.trip_activity, "duration": trip.duration})
+        return jsonify({"id":trip.id, "trip_ref": trip.trip_ref, "country": trip.country, "trip_activity": trip.trip_activity, "duration": trip.duration})
     else:
         return jsonify({"error": "Trip not found"})
 
@@ -41,7 +41,7 @@ def add_trip():
 
         trip_ref = str(uuid.uuid4().hex[:4]).upper()
         country = data["country"]
-        trip_activity = data["trip_activity"]
+        trip_activity = data["tripActivity"]
         duration = data["duration"]
 
         check_trip=Trip.query.filter_by(country=country, trip_activity=trip_activity, duration=duration, user_id=user.id).first()
@@ -58,18 +58,18 @@ def add_trip():
     else:
         return jsonify({"error": "user needs to login"})
     
-@trip_bp.route("/trip/update/<string:trip_ref>", methods=["PATCH"])
+@trip_bp.route("/trip/update/<int:trip_id>", methods=["PATCH"])
 @jwt_required()
-def update_trip(trip_ref):
+def update_trip(trip_id):
     user_id = get_jwt_identity()
 
     if user_id:
-        trip = Trip.query.filter_by(user_id=user_id, trip_ref=trip_ref).first()
+        trip = Trip.query.filter_by(user_id=user_id, id=trip_id).first()
 
         if trip:
             data = request.get_json()
             country = data.get("country", trip.country)
-            trip_activity =  data.get("trip_activity", trip.trip_activity)
+            trip_activity =  data.get("tripActivity", trip.trip_activity)
             duration = data.get("duration", trip.duration)
 
             trip.country = country
@@ -81,14 +81,14 @@ def update_trip(trip_ref):
     else:
         return jsonify({"error": "user needs to login"})
     
-@trip_bp.route("/trip/delete/<string:trip_ref>", methods=["DELETE"])
+@trip_bp.route("/trip/delete/<int:trip_id>", methods=["DELETE"])
 @jwt_required()
-def delete_trip(trip_ref):
+def delete_trip(trip_id):
     user_id = get_jwt_identity()
 
     user = User.query.filter_by(id=user_id).first()
     if user:
-        trip = Trip.query.filter_by(user_id=user_id, trip_ref=trip_ref).first()
+        trip = Trip.query.filter_by(user_id=user_id, id=trip_id).first()
         if trip:
             db.session.delete(trip)
             db.session.commit()
