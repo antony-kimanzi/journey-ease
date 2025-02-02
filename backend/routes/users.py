@@ -8,7 +8,7 @@ from flask_cors import CORS
 
 
 user_bp = Blueprint("user_bp", __name__)
-CORS(user_bp, supports_credentials=True, origins=["https://journeyease-site.vercel.app"])
+CORS(user_bp, supports_credentials=True, origins=["https://journeyapp-seven.vercel.app"])
 
 @user_bp.route("/user/register", methods=["OPTIONS"])
 @user_bp.route("/user/login", methods=["OPTIONS"])
@@ -69,7 +69,7 @@ def login():
     else:
         response = jsonify({"error": "Invalid email or password"}), 400
 
-    response.headers.add("Access-Control-Allow-Origin", "https://journeyease-site.vercel.app/")
+    response.headers.add("Access-Control-Allow-Origin", "https://journeyapp-seven.vercel.app")
     response.headers.add("Access-Control-Allow-Credentials", "true")
 
     return response
