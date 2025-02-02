@@ -11,15 +11,15 @@ export const UserProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
     const [onUserChange, setOnUserChange] = useState(false);
     
-    useEffect(() => {
-        const storedToken = sessionStorage.getItem("token");
-        if (storedToken) {
-            console.log("Token retrieved from sessionStorage:", storedToken);
-            setAuthToken(storedToken);
-        } else {
-            console.warn("No token found in sessionStorage");
-        }
-    }, []);
+    // useEffect(() => {
+    //     const storedToken = sessionStorage.getItem("token");
+    //     if (storedToken) {
+    //         console.log("Token retrieved from sessionStorage:", storedToken);
+    //         setAuthToken(storedToken);
+    //     } else {
+    //         console.warn("No token found in sessionStorage");
+    //     }
+    // }, []);
 
     useEffect(() => {
         if (authToken && !onUserChange) {

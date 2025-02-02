@@ -10,30 +10,40 @@ export const TripProvider = ({ children }) => {
     const { authToken } = useContext(UserContext);
     const navigate = useNavigate();
 
-
     const [token, setToken] = useState(() => sessionStorage.getItem("token"));
     const [trips, setTrips] = useState([]);
     const [singleTrip, setSingleTrip] = useState(null);
     const [reservations, setReservations] = useState([]);
-        ;
-    console.log("Auth Token from UserContext in TripContext:", authToken); // Debugging
 
+    console.log("Auth Token from UserContext:", authToken); // Debugging
+
+    // 🔹 Sync token from UserContext when authToken changes
     useEffect(() => {
-        const storedToken = sessionStorage.getItem("token");
-        if (storedToken) {
-            console.log("Token retrieved from sessionStorage:", storedToken);
-            setToken(storedToken);
+        if (authToken) {
+            console.log("Updating token from UserContext:", authToken);
+            setToken(authToken);
+            sessionStorage.setItem("token", authToken); // Keep sessionStorage updated
         } else {
-            console.warn("No token found in sessionStorage");
+            console.warn("No authToken found in UserContext");
         }
     }, [authToken]);
 
+    // 🔹 Sync token from sessionStorage when component mounts
+    useEffect(() => {
+        const storedToken = sessionStorage.getItem("token");
+        if (storedToken && storedToken !== token) {
+            console.log("Retrieved token from sessionStorage:", storedToken);
+            setToken(storedToken);
+        }
+    }, []);
+
+    // 🔹 Fetch trips only when token is available
     useEffect(() => {
         if (token) {
+            console.log("Fetching trips with token:", token);
             fetchTrips();
         }
     }, [token]);
-    
 
     const fetchTrips = useCallback(async () => {
         console.log("Auth Token Before Fetch:", token); // Debugging
@@ -58,8 +68,8 @@ export const TripProvider = ({ children }) => {
                 console.error("Fetch Trips Error:", error);
                 toast.error("Failed to fetch trips.");
             });
-    }, []);
-    
+    }, [token]); // 🔹 Ensure token updates inside useCallback
+
     const fetchSingleTrip = useCallback(async (tripId) => {
         if (!tripId) {
             console.error("fetchSingleTrip: tripId is missing!");
@@ -90,8 +100,7 @@ export const TripProvider = ({ children }) => {
                 console.error("Error fetching trip:", error);
                 toast.error("Failed to fetch trip.");
             });
-    }, []);
-
+    }, [token]);
 
     const addTrip = async (country, tripActivity, duration) => {
         fetch("https://journey-ease.onrender.com/trip/addtrip", {
