@@ -18,7 +18,7 @@ def options():
 
 @user_bp.after_request
 def add_cors_headers(response):
-    response.headers["Access-Control-Allow-Origin"] = "https://journeyease-site.vercel.app"
+    response.headers["Access-Control-Allow-Origin"] = "https://journeyapp-seven.vercel.app"
     response.headers["Access-Control-Allow-Methods"] = "GET, POST, PATCH, DELETE, OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
     response.headers["Access-Control-Allow-Credentials"] = "true"
