@@ -35,7 +35,7 @@ export const UserProvider = ({ children }) => {
     }, [authToken, onUserChange]);
 
     const login = async (email, password) => {
-        fetch("http://127.0.0.1:5000/user/login", {
+        fetch("https://journey-ease.onrender.com/user/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),
@@ -60,7 +60,7 @@ export const UserProvider = ({ children }) => {
     };
 
     const addUser = async (username, email, password, phoneNumber) => {
-        fetch("http://127.0.0.1:5000/user/register", {
+        fetch("https://journey-ease.onrender.com/user/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, email, password, phoneNumber }),
@@ -83,7 +83,7 @@ export const UserProvider = ({ children }) => {
     const fetchCurrentUser = async () => {
         if (!authToken) return;
         
-        fetch("http://127.0.0.1:5000/user/profile", {
+        fetch("https://journey-ease.onrender.com/user/profile", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -110,7 +110,7 @@ export const UserProvider = ({ children }) => {
             return;
         }
         
-        fetch("http://127.0.0.1:5000/user/updateprofile", {
+        fetch("https://journey-ease.onrender.com/user/updateprofile", {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -139,7 +139,7 @@ export const UserProvider = ({ children }) => {
             return;
         }
         
-        fetch("http://127.0.0.1:5000/user/deleteaccount", {
+        fetch("https://journey-ease.onrender.com/user/deleteaccount", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -169,7 +169,7 @@ export const UserProvider = ({ children }) => {
             return;
         }
         
-        fetch("http://127.0.0.1:5000/logout", {
+        fetch("https://journey-ease.onrender.com/logout", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",

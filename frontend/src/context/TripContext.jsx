@@ -43,7 +43,7 @@ export const TripProvider = ({ children }) => {
             return;
         }
     
-        fetch("http://127.0.0.1:5000/trips", {
+        fetch("https://journey-ease.onrender.com/trips", {
             method: "GET",
             headers: { "Authorization": `Bearer ${token}` },
         })
@@ -69,7 +69,7 @@ export const TripProvider = ({ children }) => {
     
         console.log("Fetching trip with tripId:", tripId);
     
-        fetch(`http://127.0.0.1:5000/trip/${tripId}`, {
+        fetch(`https://journey-ease.onrender.com/trip/${tripId}`, {
             method: "GET",
             headers: { Authorization: `Bearer ${token}` },
         })
@@ -94,7 +94,7 @@ export const TripProvider = ({ children }) => {
 
 
     const addTrip = async (country, tripActivity, duration) => {
-        fetch("http://127.0.0.1:5000/trip/addtrip", {
+        fetch("https://journey-ease.onrender.com/trip/addtrip", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -123,7 +123,7 @@ export const TripProvider = ({ children }) => {
     }
 
     const updateTrip = async (tripId, country, tripActivity, duration) => {
-        fetch(`http://127.0.0.1:5000/trip/update/${tripId}`, {
+        fetch(`https://journey-ease.onrender.com/trip/update/${tripId}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
@@ -152,7 +152,7 @@ export const TripProvider = ({ children }) => {
     }
 
     const deleteTrip = async (tripId) => {
-        fetch(`http://127.0.0.1:5000/trip/delete/${tripId}`, {
+        fetch(`https://journey-ease.onrender.com/trip/delete/${tripId}`, {
             method: "DELETE",
             headers: { Authorization: `Bearer ${token}` },
         })
@@ -183,7 +183,7 @@ export const TripProvider = ({ children }) => {
         console.log("Fetching reservations for tripId:", tripId);
         
     
-        fetch(`http://127.0.0.1:5000/reservations/${tripId}`, {
+        fetch(`https://journey-ease.onrender.com/reservations/${tripId}`, {
             headers: { Authorization: `Bearer ${token}` },
         })
             .then((response) => {
@@ -210,7 +210,7 @@ export const TripProvider = ({ children }) => {
         
     
     const addReservation = async (tripId, reservation) => {
-        fetch(`http://127.0.0.1:5000/reservation/add/${tripId}`, {
+        fetch(`https://journey-ease.onrender.com/reservation/add/${tripId}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -236,7 +236,7 @@ export const TripProvider = ({ children }) => {
     };
 
     const updateReservation = async (tripId, reservationId, updatedData) => {
-        fetch(`http://127.0.0.1:5000/reservation/update/${tripId}/${reservationId}`, {
+        fetch(`https://journey-ease.onrender.com/reservation/update/${tripId}/${reservationId}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -262,7 +262,7 @@ export const TripProvider = ({ children }) => {
     };
 
     const deleteReservation = async (tripId, reservationId) => {
-        fetch(`http://127.0.0.1:5000/reservation/delete/${tripId}/${reservationId}`, {
+        fetch(`https://journey-ease.onrender.com/reservation/delete/${tripId}/${reservationId}`, {
                 method: "DELETE",
                 headers: { Authorization: `Bearer ${token}` },
         })

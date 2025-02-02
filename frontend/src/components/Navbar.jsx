@@ -9,10 +9,20 @@ export default function CustomNavbar() {
   const location = useLocation();
 
   return (
-    <Navbar expand="md" style={{ backgroundColor: "#001f3f" }} variant="dark" fixed="top">
-      <Container>
+    <Navbar
+      expand="md"
+      variant="dark"
+      fixed="top"
+      style={{
+        backgroundColor: "#001f3f",
+        width: "100vw", // Full width
+        paddingLeft: "10px",
+        paddingRight: "10px",
+      }}
+    >
+      <Container fluid>
         {/* Logo */}
-        <Navbar.Brand as={Link} to="/" className="fw-bold fs-4">
+        <Navbar.Brand as={Link} to="/" className="fw-bold fs-4 text-light">
           Journey Ease
         </Navbar.Brand>
 
@@ -20,38 +30,68 @@ export default function CustomNavbar() {
         <Navbar.Toggle aria-controls="navbar-nav" />
 
         <Navbar.Collapse id="navbar-nav">
-          <Nav className="ms-auto align-items-center">  
+          <Nav className="ms-auto align-items-center">
             {currentUser ? (
               <>
-                <Nav.Link as={Link} to="/profile" active={location.pathname === "/profile"} className="me-4">
+                <Nav.Link
+                  as={Link}
+                  to="/profile"
+                  className={`me-4 ${location.pathname === "/profile" ? "text-warning fw-bold" : "text-light"}`}
+                >
                   Profile
                 </Nav.Link>
 
-                <Nav.Link as={Link} to="/trip" active={location.pathname === "/trip"} className="me-4">
+                <Nav.Link
+                  as={Link}
+                  to="/trip"
+                  className={`me-4 ${location.pathname === "/trip" ? "text-warning fw-bold" : "text-light"}`}
+                >
                   Trips
                 </Nav.Link>
 
                 {/* User Greeting */}
-                <h5 className="me-3 text-light">
+                <h5 className="me-3 text-light mb-0">
                   {`Hello, ${currentUser.username || "User"}!`}
                 </h5>
 
                 {/* Logout Button */}
-                <Button variant="danger" size="sm" className="ms-2" onClick={logout}>
+                <Button
+                  variant="danger"
+                  size="sm"
+                  className="ms-2"
+                  style={{ fontWeight: "bold", borderRadius: "6px" }}
+                  onClick={logout}
+                >
                   Logout
                 </Button>
               </>
             ) : (
               <>
-                <Nav.Link as={Link} to="/" active={location.pathname === "/"} className="me-4">
+                <Nav.Link
+                  as={Link}
+                  to="/"
+                  className={`me-4 ${location.pathname === "/" ? "text-warning fw-bold" : "text-light"}`}
+                >
                   Home
                 </Nav.Link>
 
-                <Button as={Link} to="/register" variant="primary" className="ms-2">
+                <Button
+                  as={Link}
+                  to="/register"
+                  variant="primary"
+                  className="ms-2"
+                  style={{ fontWeight: "bold", borderRadius: "6px" }}
+                >
                   Register
                 </Button>
 
-                <Button as={Link} to="/login" variant="outline-light" className="ms-2">
+                <Button
+                  as={Link}
+                  to="/login"
+                  variant="outline-light"
+                  className="ms-2"
+                  style={{ fontWeight: "bold", borderRadius: "6px" }}
+                >
                   Login
                 </Button>
               </>

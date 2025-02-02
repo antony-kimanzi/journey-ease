@@ -40,7 +40,7 @@ const Profile = () => {
                   <>
                     {/* Profile Image */}
                     <Image 
-                      src="/public/avatar-profile.png" 
+                      src="/avatar-profile.png" 
                       roundedCircle 
                       alt="Profile Avatar"
                       className="mb-3"
