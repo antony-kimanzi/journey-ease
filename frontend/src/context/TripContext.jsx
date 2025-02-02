@@ -15,7 +15,7 @@ export const TripProvider = ({ children }) => {
     const [singleTrip, setSingleTrip] = useState(null);
     const [reservations, setReservations] = useState([]);
 
-    console.log("Auth Token from UserContext:", authToken); // Debugging
+    console.log("Authorization Token from UserContext:", authToken); // Debugging
 
     // // 🔹 Sync token from UserContext when authToken changes
     // useEffect(() => {

@@ -38,6 +38,7 @@ export const UserProvider = ({ children }) => {
                 setAuthToken(response.access_token);
                 navigate("/");
                 toast.success("Welcome!");
+                console
                 
             } else {
                 toast.error(response.error || "Failed to log in");
