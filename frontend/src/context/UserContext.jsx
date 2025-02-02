@@ -7,6 +7,7 @@ export const UserContext = createContext();
 // eslint-disable-next-line react/prop-types
 export const UserProvider = ({ children }) => {
     const navigate = useNavigate();
+    const [token, setToken] = useState('')
     const [authToken, setAuthToken] = useState(() => sessionStorage.getItem("token"));
     const [currentUser, setCurrentUser] = useState(null);
     const [onUserChange, setOnUserChange] = useState(false);
@@ -36,6 +37,7 @@ export const UserProvider = ({ children }) => {
             if (response.access_token) {
                 sessionStorage.setItem("token", response.access_token);
                 setAuthToken(response.access_token);
+                setToken(response.access_token);
                 navigate("/");
                 toast.success("Welcome!");
                 console
@@ -187,6 +189,7 @@ export const UserProvider = ({ children }) => {
     
     
     const data = {
+        token,
         authToken,
         currentUser,
         login,

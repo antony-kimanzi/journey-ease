@@ -7,7 +7,7 @@ export const TripContext = createContext();
 
 // eslint-disable-next-line react/prop-types
 export const TripProvider = ({ children }) => {
-    const { authToken } = useContext(UserContext);
+    const { token } = useContext(UserContext);
     const navigate = useNavigate();
 
     // const [token, setToken] = useState(() => sessionStorage.getItem("token"));
@@ -15,7 +15,7 @@ export const TripProvider = ({ children }) => {
     const [singleTrip, setSingleTrip] = useState(null);
     const [reservations, setReservations] = useState([]);
 
-    console.log("Authorization Token from UserContext:", authToken); // Debugging
+    console.log("Token from UserContext:", token); // Debugging
 
     // // 🔹 Sync token from UserContext when authToken changes
     // useEffect(() => {
@@ -39,23 +39,23 @@ export const TripProvider = ({ children }) => {
 
     // 🔹 Fetch trips only when token is available
     useEffect(() => {
-        if (authToken) {
-            console.log("Fetching trips with token:", authToken);
+        if (token) {
+            console.log("Fetching trips with token:", token);
             fetchTrips();
         }
-    }, [authToken]);
+    }, [token]);
 
     const fetchTrips = useCallback(async () => {
-        console.log("Authorization Token Before Fetch:", authToken); // Debugging
+        console.log("Authorization Token Before Fetch:", token); // Debugging
     
-        if (!authToken) {
+        if (!token) {
             toast.error("Authentication token missing!");
             return;
         }
     
         fetch("https://journey-ease.onrender.com/trips", {
             method: "GET",
-            headers: { "Authorization": `Bearer ${authToken}` },
+            headers: { "Authorization": `Bearer ${token}` },
         })
             .then((response) => response.json())
             .then((response) => {
@@ -68,7 +68,7 @@ export const TripProvider = ({ children }) => {
                 console.error("Fetch Trips Error:", error);
                 toast.error("Failed to fetch trips.");
             });
-    }, [authToken]); // 🔹 Ensure token updates inside useCallback
+    }, [token]); // 🔹 Ensure token updates inside useCallback
 
     const fetchSingleTrip = useCallback(async (tripId) => {
         if (!tripId) {
@@ -81,7 +81,7 @@ export const TripProvider = ({ children }) => {
     
         fetch(`https://journey-ease.onrender.com/trip/${tripId}`, {
             method: "GET",
-            headers: { Authorization: `Bearer ${authToken}` },
+            headers: { Authorization: `Bearer ${token}` },
         })
             .then((response) => {
                 if (!response.ok) {
@@ -100,14 +100,14 @@ export const TripProvider = ({ children }) => {
                 console.error("Error fetching trip:", error);
                 toast.error("Failed to fetch trip.");
             });
-    }, [authToken]);
+    }, [token]);
 
     const addTrip = async (country, tripActivity, duration) => {
         fetch("https://journey-ease.onrender.com/trip/addtrip", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${authToken}`
+                Authorization: `Bearer ${token}`
             },
             body: JSON.stringify({
                 country, tripActivity, duration
@@ -136,7 +136,7 @@ export const TripProvider = ({ children }) => {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${authToken}`
+                Authorization: `Bearer ${token}`
             },
             body: JSON.stringify({
                 country, tripActivity, duration
@@ -163,7 +163,7 @@ export const TripProvider = ({ children }) => {
     const deleteTrip = async (tripId) => {
         fetch(`https://journey-ease.onrender.com/trip/delete/${tripId}`, {
             method: "DELETE",
-            headers: { Authorization: `Bearer ${authToken}` },
+            headers: { Authorization: `Bearer ${token}` },
         })
             .then((response) => response.json())
             .then((response) => {
@@ -193,7 +193,7 @@ export const TripProvider = ({ children }) => {
         
     
         fetch(`https://journey-ease.onrender.com/reservations/${tripId}`, {
-            headers: { Authorization: `Bearer ${authToken}` },
+            headers: { Authorization: `Bearer ${token}` },
         })
             .then((response) => {
                 if (!response.ok) {
@@ -223,7 +223,7 @@ export const TripProvider = ({ children }) => {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${authToken}`,
+                    Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify(reservation),
         })
@@ -249,7 +249,7 @@ export const TripProvider = ({ children }) => {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${authToken}`,
+                    Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify(updatedData),
         })
@@ -273,7 +273,7 @@ export const TripProvider = ({ children }) => {
     const deleteReservation = async (tripId, reservationId) => {
         fetch(`https://journey-ease.onrender.com/reservation/delete/${tripId}/${reservationId}`, {
                 method: "DELETE",
-                headers: { Authorization: `Bearer ${authToken}` },
+                headers: { Authorization: `Bearer ${token}` },
         })
             .then((response) => response.json())
             .then((response) => {
