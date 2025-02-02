@@ -186,6 +186,7 @@ export const UserProvider = ({ children }) => {
     
     
     const data = {
+        authToken,
         currentUser,
         login,
         addUser,
