@@ -8,7 +8,21 @@ from flask_cors import CORS
 
 
 user_bp = Blueprint("user_bp", __name__)
-CORS(user_bp, supports_credentials=True, origins=["http://localhost:5173"])
+CORS(user_bp, supports_credentials=True, origins=["https://journey-ease-app.vercel.app"])
+
+@user_bp.route("/user/register", methods=["OPTIONS"])
+@user_bp.route("/user/login", methods=["OPTIONS"])
+def options():
+    return jsonify({"message": "CORS Preflight Successful"}), 200
+
+
+@user_bp.after_request
+def add_cors_headers(response):
+    response.headers["Access-Control-Allow-Origin"] = "https://journeyease-five.vercel.app"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, PATCH, DELETE, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+    response.headers["Access-Control-Allow-Credentials"] = "true"
+    return response
 
 
 @user_bp.route("/user/register", methods=["POST"])
@@ -55,19 +69,11 @@ def login():
     else:
         response = jsonify({"error": "Invalid email or password"}), 400
 
-    response.headers.add("Access-Control-Allow-Origin", "http://localhost:5173")
+    response.headers.add("Access-Control-Allow-Origin", "https://journey-ease-app.vercel.app/")
     response.headers.add("Access-Control-Allow-Credentials", "true")
 
     return response
-    
-@user_bp.route("/user/login", methods=["OPTIONS"])
-def preflight():
-    response = jsonify({"message": "Preflight OK"})
-    response.headers.add("Access-Control-Allow-Origin", "http://localhost:5173")
-    response.headers.add("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS")
-    response.headers.add("Access-Control-Allow-Headers", "Content-Type, Authorization")
-    response.headers.add("Access-Control-Allow-Credentials", "true")
-    return response, 200
+
 
 @user_bp.route("/user/profile")    
 @jwt_required()
