@@ -344,6 +344,7 @@ export const AuthProvider = ({ children }) => {
         
     
         fetch(`https://journey-ease.onrender.com/reservations/${tripId}`, {
+            method: "GET",
             headers: { Authorization: `Bearer ${authToken}` },
         })
             .then((response) => {
