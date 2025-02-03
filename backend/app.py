@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from datetime import timedelta
@@ -36,3 +36,7 @@ def check_if_token_revoked(jwt_header, jwt_payload: dict) -> bool:
     token = db.session.query(TokenBlocklist.id).filter_by(jti=jti).scalar()
 
     return token is not None
+
+@app.route("/")
+def index():
+    return jsonify({"msg":"Welcome to journey ease app backend server"})
