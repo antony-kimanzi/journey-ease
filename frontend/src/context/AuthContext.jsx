@@ -367,7 +367,7 @@ export const AuthProvider = ({ children }) => {
                 console.error("Error fetching reservations:", error);
                 toast.error("Failed to fetch reservations.");
             });
-    }, []);
+    }, [authToken]);
         
     
     const addReservation = async (tripId, reservation) => {
