@@ -8,7 +8,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(
     app,
-    resources={r"/*": {"origins": "https://journeyeasesite.vercel.app"}},
+    resources={r"/*": {"origins": "https://journey-ease-website.vercel.app"}},
     supports_credentials=True
 )
 
