@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from "react";
-import { TripContext } from "../context/TripContext";
+import { AuthContext } from "../context/AuthContext";
 import CustomNavbar from "../components/Navbar";
 import { Container, Row, Col, Card, Button, Spinner } from "react-bootstrap";
 import AddTripModal from "../components/AddTripModal";
 
 const Trip = () => {
-    const { data } = useContext(TripContext);
+    const { data } = useContext(AuthContext);
     const { trips, fetchTrips, addTrip, navigateToTrip } = data;
 
     const [showModal, setShowModal] = useState(false);

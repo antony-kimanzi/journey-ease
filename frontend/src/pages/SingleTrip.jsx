@@ -1,13 +1,13 @@
 import { useState, useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { TripContext } from "../context/TripContext";
+import { AuthContext } from "../context/AuthContext";
 import { Container, Card, Button, Spinner, Alert } from "react-bootstrap";
 import CustomNavbar from "../components/Navbar";
 import UpdateTripModal from "../components/UpdateTripModal"; // ✅ Import the new modal
 
 const SingleTrip = () => {
     const { tripId } = useParams();
-    const { fetchSingleTrip, singleTrip, updateTrip, deleteTrip, navigateToReservations } = useContext(TripContext)?.data || {};
+    const { fetchSingleTrip, singleTrip, updateTrip, deleteTrip, navigateToReservations } = useContext(AuthContext)?.data || {};
     const [showModal, setShowModal] = useState(false);
     const [country, setCountry] = useState('');
     const [tripActivity, setTripActivity] = useState('');

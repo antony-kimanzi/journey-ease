@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
-import { UserContext } from "../context/UserContext";
+import { AuthContext } from "../context/AuthContext";
 
 export default function CustomNavbar() {
-  const { data } = useContext(UserContext);
+  const { data } = useContext(AuthContext);
   const { currentUser, logout } = data || {};
   const location = useLocation();
 

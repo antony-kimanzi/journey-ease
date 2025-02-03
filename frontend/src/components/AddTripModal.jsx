@@ -1,11 +1,11 @@
 import { useState, useContext } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import { TripContext } from "../context/TripContext";
+import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
 
 // eslint-disable-next-line react/prop-types
 const AddTripModal = ({ show, handleClose }) => {
-    const { data } = useContext(TripContext);
+    const { data } = useContext(AuthContext);
     const { addTrip } = data;
 
     const [country, setCountry] = useState('');

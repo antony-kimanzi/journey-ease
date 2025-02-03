@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../context/UserContext";
+import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Card, Button, Container, Spinner, Row, Col, Image } from "react-bootstrap";
 import CustomNavbar from "../components/Navbar";
 import UpdateProfileModal from "../components/UpdateProfileModal";
 
 const Profile = () => {
-  const { data } = useContext(UserContext);
+  const { data } = useContext(AuthContext);
   const { currentUser, updateUser, deleteUser } = data || {};
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);

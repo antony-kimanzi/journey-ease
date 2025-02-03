@@ -2,10 +2,10 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Container, Button, Row, Col, Card } from "react-bootstrap";
 import CustomNavbar from "../components/Navbar";
-import { UserContext } from "../context/UserContext";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Home() {
-  const { data } = useContext(UserContext);
+  const { data } = useContext(AuthContext);
   const { currentUser } = data || {};
 
   return (

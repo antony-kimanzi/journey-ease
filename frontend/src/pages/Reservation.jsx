@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { TripContext } from "../context/TripContext";
+import { AuthContext } from "../context/AuthContext";
 import { Container, Row, Col, Card, Button, Spinner, Alert, Modal, Form } from "react-bootstrap";
 import CustomNavbar from "../components/Navbar";
 
 const Reservation = () => {
     const { tripId } = useParams();
-    const tripContext = useContext(TripContext);
+    const tripContext = useContext(AuthContext);
     
     if (!tripContext || !tripContext.data) {
         return <Alert variant="danger">Error: Trip Context not found.</Alert>;

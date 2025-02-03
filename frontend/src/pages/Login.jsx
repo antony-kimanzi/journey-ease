@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { UserContext } from '../context/UserContext';
+import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from "react-router-dom";
 import { Container, Card, Form, Button } from "react-bootstrap";
 
@@ -8,7 +8,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const { data } = useContext(UserContext); 
+  const { data } = useContext(AuthContext); 
   const { login } = data || {}; // ✅ Extract `login` function properly
 
   const handleSubmit = (e) => {
@@ -16,7 +16,7 @@ export default function Login() {
     if (login) {
       login(email, password);
     } else {
-      console.error("Login function is undefined! Check UserContext.");
+      console.error("Login function is undefined! Check AuthContext.");
     }
   };
 

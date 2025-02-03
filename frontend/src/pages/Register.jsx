@@ -1,10 +1,10 @@
 import { useContext, useState } from "react";
-import { UserContext } from "../context/UserContext";
+import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Container, Card, Form, Button, Alert } from "react-bootstrap";
 
 export default function Register() {
-  const { data } = useContext(UserContext);
+  const { data } = useContext(AuthContext);
   const { addUser } = data || {};
 
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ export default function Register() {
       addUser(username, email, password, phoneNumber);
       navigate("/login"); // Redirect to login after successful registration
     } else {
-      console.error("addUser function is undefined! Check UserContext.");
+      console.error("addUser function is undefined! Check AuthContext.");
     }
   };
 
