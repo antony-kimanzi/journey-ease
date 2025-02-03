@@ -98,8 +98,8 @@ project_root/
 ## Resources
 
 - **Deployed Frontend**: [Journey Ease App - Frontend](https://journey-ease-website.vercel.app/)
-- **Deployed Backend**: [Journey Ease App - Backend](https://volunteer-matching-app-server.onrender.com/)
-- **Demo Presentation**: [Screencastify Video Demo](https://youtu.be/fqeVZi8tRKk)
+- **Deployed Backend**: [Journey Ease App - Backend](https://journey-ease.onrender.com/)
+- **Demo Presentation**: [Screencastify Video Demo](https://drive.google.com/file/d/1EN0-ZDMJRYvEWKpGkcIWQjwlvsZnRU8l/view)
 
 
 ## Contributing
@@ -112,5 +112,5 @@ project_root/
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the [MIT-licence](https://github.com/antony-kimanzi/journey-ease/blob/main/LICENSE.md).
 
