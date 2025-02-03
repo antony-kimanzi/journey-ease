@@ -197,16 +197,16 @@ export const AuthProvider = ({ children }) => {
     };
 
     const fetchTrips = useCallback(async () => {
-        console.log("Authorization Token Before Fetch:", token); // Debugging
+        console.log("Authorization Token Before Fetch:", authToken); // Debugging
     
-        if (!token) {
+        if (!authToken) {
             toast.error("Authentication token missing!");
             return;
         }
     
         fetch("https://journey-ease.onrender.com/trips", {
             method: "GET",
-            headers: { "Authorization": `Bearer ${token}` },
+            headers: { "Authorization": `Bearer ${authToken}` },
         })
             .then((response) => response.json())
             .then((response) => {
@@ -219,7 +219,7 @@ export const AuthProvider = ({ children }) => {
                 console.error("Fetch Trips Error:", error);
                 toast.error("Failed to fetch trips.");
             });
-    }, [token]); // 🔹 Ensure token updates inside useCallback
+    }, [authToken]); // 🔹 Ensure token updates inside useCallback
 
     const fetchSingleTrip = useCallback(async (tripId) => {
         if (!tripId) {
@@ -232,7 +232,7 @@ export const AuthProvider = ({ children }) => {
     
         fetch(`https://journey-ease.onrender.com/trip/${tripId}`, {
             method: "GET",
-            headers: { Authorization: `Bearer ${token}` },
+            headers: { Authorization: `Bearer ${authToken}` },
         })
             .then((response) => {
                 if (!response.ok) {
@@ -251,14 +251,14 @@ export const AuthProvider = ({ children }) => {
                 console.error("Error fetching trip:", error);
                 toast.error("Failed to fetch trip.");
             });
-    }, [token]);
+    }, [authToken]);
 
     const addTrip = async (country, tripActivity, duration) => {
         fetch("https://journey-ease.onrender.com/trip/addtrip", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${authToken}`
             },
             body: JSON.stringify({
                 country, tripActivity, duration
@@ -287,7 +287,7 @@ export const AuthProvider = ({ children }) => {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${authToken}`
             },
             body: JSON.stringify({
                 country, tripActivity, duration
@@ -314,7 +314,7 @@ export const AuthProvider = ({ children }) => {
     const deleteTrip = async (tripId) => {
         fetch(`https://journey-ease.onrender.com/trip/delete/${tripId}`, {
             method: "DELETE",
-            headers: { Authorization: `Bearer ${token}` },
+            headers: { Authorization: `Bearer ${authToken}` },
         })
             .then((response) => response.json())
             .then((response) => {
